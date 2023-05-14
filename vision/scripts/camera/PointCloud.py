@@ -71,16 +71,34 @@ class PointCloud:
         polydata.save(output_path)
         log.debug(f'point_cloud saved to {output_path}')
 
-    # Clean point cloud that has Z value between 0.8 and 1.0
+    # Clean point_cloud that remove Z value between min(Z) and min(Z) + 0.001
     def clean_pointcloud(point_cloud):
-        """ @brief Clean point_cloud that has Z value between 0.8 and 1.0
+        """ @brief Clean point_cloud that remove Z value between min(Z) and min(Z) + 0.001
             @param point_cloud (list): list of point_cloud
             @return point_cloud (list): list of point_cloud
         """
         point_cloud = np.array(point_cloud)
-        point_cloud = point_cloud[np.where(point_cloud[:, 2] > 0.8)]
-        point_cloud = point_cloud[np.where(point_cloud[:, 2] < 1.0)]
+        z_min = np.min(point_cloud[:,2])
+        z_max = z_min + 0.001
+        point_cloud = point_cloud[np.where(point_cloud[:,2] > z_max)]
+        log.debug('point_cloud cleaned')
+        log.debug(f'Z value > {z_max}')
         return point_cloud
+
+    # Visualize point cloud from list of point cloud
+    def visualize_pointcloud_from_list(point_cloud):
+        """ @brief Visualize point_cloud from list of point_cloud
+            @param point_cloud (list): list of point_cloud
+        """
+        point_cloud = np.array(point_cloud)
+        point_cloud = pv.PolyData(point_cloud)
+        log.debug('plotting point_cloud')
+        point_cloud.plot(scalars=np.arange(point_cloud.n_points),
+                                            render_points_as_spheres=True,
+                                            point_size=15,
+                                            show_grid=True,
+                                            show_axes=True,
+                                            show_bounds=True)
     
     # Visualize point cloud from ply file
     def visualize_pointcloud(ply_path):
@@ -88,7 +106,13 @@ class PointCloud:
             @param ply_path (str): path to ply file
         """
         point_cloud = pv.read(ply_path)
-        point_cloud.plot(scalars=np.arange(point_cloud.n_points), render_points_as_spheres=True, point_size=15)
+        log.debug(f'plotting point_cloud from {ply_path}')
+        point_cloud.plot(scalars=np.arange(point_cloud.n_points),
+                                            render_points_as_spheres=True,
+                                            point_size=15,
+                                            show_grid=True,
+                                            show_axes=True,
+                                            show_bounds=True)
 
     # Transform point cloud to world frame
     def transform_pointcloud(point_cloud):
@@ -123,4 +147,9 @@ if __name__ == '__main__':
     # point_cloud = PointCloud.get_pointcloud_from_ply(PLY_AFTER_TRANSFORM_PATH)
     # point_cloud = PointCloud.clean_pointcloud(point_cloud)
     # PointCloud.save_pointcloud_to_ply(point_cloud, PLY_AFTER_CLEAN_PATH)
+
+    # point_cloud = PointCloud.get_pointcloud_from_ply(PLY_AFTER_CLEAN_PATH)
+    # point_cloud = PointCloud.clean_pointcloud(point_cloud)
+    # PointCloud.save_pointcloud_to_ply(point_cloud, PLY_AFTER_CLEAN_PATH)
+    
     PointCloud.visualize_pointcloud(PLY_AFTER_CLEAN_PATH)
