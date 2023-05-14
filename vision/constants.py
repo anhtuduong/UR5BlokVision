@@ -31,19 +31,52 @@ BLOCK_NAMES = [
     'X2-Y2-Z2-FILLET'
 ]
 
-# Mesh paths of all blocks
+# Mesh and point cloud paths of all blocks
 MODEL = {
-    'X1-Y1-Z2'            : os.path.join(ROOT, 'models/X1-Y1-Z2/mesh/X1-Y1-Z2.stl'),
-    'X1-Y2-Z1'            : os.path.join(ROOT, 'models/X1-Y2-Z1/mesh/X1-Y2-Z1.stl'),
-    'X1-Y2-Z2'            : os.path.join(ROOT, 'models/X1-Y2-Z2/mesh/X1-Y2-Z2.stl'),
-    'X1-Y2-Z2-CHAMFER'    : os.path.join(ROOT, 'models/X1-Y2-Z2-CHAMFER/mesh/X1-Y2-Z2-CHAMFER.stl'),
-    'X1-Y2-Z2-TWINFILLET' : os.path.join(ROOT, 'models/X1-Y2-Z2-TWINFILLET/mesh/X1-Y2-Z2-TWINFILLET.stl'),
-    'X1-Y3-Z2'            : os.path.join(ROOT, 'models/X1-Y3-Z2/mesh/X1-Y3-Z2.stl'),
-    'X1-Y3-Z2-FILLET'     : os.path.join(ROOT, 'models/X1-Y3-Z2-FILLET/mesh/X1-Y3-Z2-FILLET.stl'),
-    'X1-Y4-Z1'            : os.path.join(ROOT, 'models/X1-Y4-Z1/mesh/X1-Y4-Z1.stl'),
-    'X1-Y4-Z2'            : os.path.join(ROOT, 'models/X1-Y4-Z2/mesh/X1-Y4-Z2.stl'),
-    'X2-Y2-Z2'            : os.path.join(ROOT, 'models/X2-Y2-Z2/mesh/X2-Y2-Z2.stl'),
-    'X2-Y2-Z2-FILLET'     : os.path.join(ROOT, 'models/X2-Y2-Z2-FILLET/mesh/X2-Y2-Z2-FILLET.stl')
+    'X1-Y1-Z2': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y1-Z2/mesh/X1-Y1-Z2.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y1-Z2/pointcloud_X1-Y1-Z2.ply'),
+    },
+    'X1-Y2-Z1': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y2-Z1/mesh/X1-Y2-Z1.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y2-Z1/pointcloud_X1-Y2-Z1.ply'),
+    },
+    'X1-Y2-Z2': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y2-Z2/mesh/X1-Y2-Z2.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y2-Z2/pointcloud_X1-Y2-Z2.ply'),
+    },
+    'X1-Y2-Z2-CHAMFER': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y2-Z2-CHAMFER/mesh/X1-Y2-Z2-CHAMFER.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y2-Z2-CHAMFER/pointcloud_X1-Y2-Z2-CHAMFER.ply'),
+    },
+    'X1-Y2-Z2-TWINFILLET': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y2-Z2-TWINFILLET/mesh/X1-Y2-Z2-TWINFILLET.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y2-Z2-TWINFILLET/pointcloud_X1-Y2-Z2-TWINFILLET.ply'),
+    },
+    'X1-Y3-Z2': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y3-Z2/mesh/X1-Y3-Z2.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y3-Z2/pointcloud_X1-Y3-Z2.ply'),
+    },
+    'X1-Y3-Z2-FILLET': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y3-Z2-FILLET/mesh/X1-Y3-Z2-FILLET.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y3-Z2-FILLET/pointcloud_X1-Y3-Z2-FILLET.ply'),
+    },
+    'X1-Y4-Z1': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y4-Z1/mesh/X1-Y4-Z1.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y4-Z1/pointcloud_X1-Y4-Z1.ply'),
+    },
+    'X1-Y4-Z2': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y4-Z2/mesh/X1-Y4-Z2.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X1-Y4-Z2/pointcloud_X1-Y4-Z2.ply'),
+    },
+    'X2-Y2-Z2': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X2-Y2-Z2/mesh/X2-Y2-Z2.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X2-Y2-Z2/pointcloud_X2-Y2-Z2.ply'),
+    },
+    'X2-Y2-Z2-FILLET': {
+        'mesh_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X2-Y2-Z2-FILLET/mesh/X2-Y2-Z2-FILLET.stl'),
+        'pointcloud_file': os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models/X2-Y2-Z2-FILLET/pointcloud_X2-Y2-Z2-FILLET.ply'),
+    }
 }
 
 # Main

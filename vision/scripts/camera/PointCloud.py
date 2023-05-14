@@ -81,12 +81,11 @@ class PointCloud:
         z_min = np.min(point_cloud[:,2])
         z_max = z_min + 0.001
         point_cloud = point_cloud[np.where(point_cloud[:,2] > z_max)]
-        log.debug('point_cloud cleaned')
-        log.debug(f'Z value > {z_max}')
+        log.debug('point_cloud cleaned: Z value > {z_max}')
         return point_cloud
 
     # Visualize point cloud from list of point cloud
-    def visualize_pointcloud_from_list(point_cloud):
+    def visualize_pointcloud(point_cloud):
         """ @brief Visualize point_cloud from list of point_cloud
             @param point_cloud (list): list of point_cloud
         """
@@ -99,23 +98,9 @@ class PointCloud:
                                             show_grid=True,
                                             show_axes=True,
                                             show_bounds=True)
-    
-    # Visualize point cloud from ply file
-    def visualize_pointcloud(ply_path):
-        """ @brief Visualize point_cloud from ply file
-            @param ply_path (str): path to ply file
-        """
-        point_cloud = pv.read(ply_path)
-        log.debug(f'plotting point_cloud from {ply_path}')
-        point_cloud.plot(scalars=np.arange(point_cloud.n_points),
-                                            render_points_as_spheres=True,
-                                            point_size=15,
-                                            show_grid=True,
-                                            show_axes=True,
-                                            show_bounds=True)
 
     # Transform point cloud to world frame
-    def transform_pointcloud(point_cloud):
+    def transform_pointcloud_to_world_frame(point_cloud):
         """ @brief Transform point_cloud to world frame
             @param point_cloud (list): list of point_cloud
             @return point_cloud (list): list of point_cloud
@@ -124,7 +109,7 @@ class PointCloud:
         for i in range(len(point_cloud)):
             point_cloud[i] = point_cloud[i].dot(w_R_c.T) + x_c + base_offset
         
-        log.debug('point_cloud transformed')
+        log.debug('point_cloud transformed to world frame')
         return point_cloud
     
     # Get point cloud from ply file
@@ -137,19 +122,31 @@ class PointCloud:
         point_cloud = np.array(point_cloud.points)
         log.debug(f'point_cloud returned from {ply_path}')
         return point_cloud
+    
+    # Render point cloud from STL file
+    def render_pointcloud_from_stl(stl_path):
+        """ @brief Render point_cloud from STL file
+            @param stl_path (str): path to stl file
+            @return point_cloud (list): list of point_cloud
+        """
+        # Load the STL file
+        mesh = pv.read(stl_path)
+
+        # Convert the mesh to a point cloud
+        point_cloud = mesh.points
+
+        # Return the point cloud
+        log.debug(f'point_cloud returned from {stl_path}')
+        return point_cloud
+
+    # Save point cloud to PLY file
+    def save_pointcloud_to_PLY(point_cloud, ply_path):
+        """ @brief Save point_cloud to PLY file
+            @param point_cloud (list): list of point_cloud
+            @param ply_path (str): path to PLY output file
+        """
+        point_cloud.save(ply_path)
+        log.debug(f"Saved point cloud to PLY file: {ply_path}")
 
 if __name__ == '__main__':
-
-    # point_cloud = PointCloud.get_pointcloud_from_ply(PLY_FROM_ROS_PATH)
-    # point_cloud = PointCloud.transform_pointcloud(point_cloud)
-    # PointCloud.save_pointcloud_to_ply(point_cloud, PLY_AFTER_TRANSFORM_PATH)
-    # PointCloud.visualize_pointcloud(PLY_AFTER_TRANSFORM_PATH)
-    # point_cloud = PointCloud.get_pointcloud_from_ply(PLY_AFTER_TRANSFORM_PATH)
-    # point_cloud = PointCloud.clean_pointcloud(point_cloud)
-    # PointCloud.save_pointcloud_to_ply(point_cloud, PLY_AFTER_CLEAN_PATH)
-
-    # point_cloud = PointCloud.get_pointcloud_from_ply(PLY_AFTER_CLEAN_PATH)
-    # point_cloud = PointCloud.clean_pointcloud(point_cloud)
-    # PointCloud.save_pointcloud_to_ply(point_cloud, PLY_AFTER_CLEAN_PATH)
-    
-    PointCloud.visualize_pointcloud(PLY_AFTER_CLEAN_PATH)
+    pass
