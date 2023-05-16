@@ -12,10 +12,11 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 # Import
 from vision.scripts.camera.PointCloud import PointCloud
 from vision.scripts.utils.Logger import Logger as log
-from constants import MODEL
+from constants import MODEL, PLY_FROM_ROS_PATH
     
 # Main
 if __name__ == "__main__":
+
     # Render all models to point cloud
     count = 0
     for block_name in MODEL:
