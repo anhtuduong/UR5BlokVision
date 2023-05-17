@@ -5,12 +5,10 @@
 @date 2023-05-04
 """
 
-from pathlib import Path
+# Resolve paths
 import os
 import sys
-import datetime
-
-# Resolve paths
+from pathlib import Path
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[3]
 if ROOT not in sys.path:
@@ -26,19 +24,15 @@ class Logger:
     @brief This class contains utility functions for logging.
     """
     def info(text):
-        print("[INFO]" + text)
-        return "[INFO] " + text
+        print(f"[INFO]\t{text}")
 
-    def warning(text):
-        print("[WARNING] " + text)
-        return "[WARNING] " + text
+    def debug(text):
+        print(f"[DEBUG]\t{text}")
 
     def error(text):
-        print("[ERROR] " + text)
-        return "[ERROR] " + text
-    
-    def debug(text):
-        print("[DEBUG] " + text)
-        return "[DEBUG] " + text
+        print(f"[ERROR]\t{text}")
+
+    def warning(text):
+        print(f"[WARNING]\t{text}")
     
     # TODO: implement log to file
