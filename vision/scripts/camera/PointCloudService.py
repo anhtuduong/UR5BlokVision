@@ -24,7 +24,7 @@ x_c = np.array([-0.9, 0.24, -0.35])
 base_offset = np.array([0.5, 0.35, 1.75])
 
 
-class PointCloud:
+class PointCloudService:
 
     def __init__(self):
         self.pointcloud_received = None
@@ -163,4 +163,5 @@ class PointCloud:
 
 if __name__ == '__main__':
     
-    PointCloud.visualize_pointcloud(PointCloud.get_pointcloud_from_ply(PLY_AFTER_CLEAN_PATH))
+    point_cloud = PointCloudService.get_pointcloud_from_ply(PLY_AFTER_CLEAN_PATH)
+    PointCloudService.visualize_pointcloud(point_cloud)

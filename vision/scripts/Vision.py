@@ -21,7 +21,7 @@ import rospy as ros
 import numpy as np
 from localization.BlockDetect import BlockDetect
 from camera.ZED import ZED
-from camera.PointCloud import PointCloud
+from UR5BlokVision.vision.scripts.camera.PointCloudService import PointCloudService
 from scripts.utils.Logger import Logger as log
 from vision.constants import *
 
@@ -42,14 +42,14 @@ class Vision:
         zed.save_image(IMG_ZED_PATH, zed.get_image())
         block_detect = BlockDetect(IMG_ZED_PATH)
         block_list = block_detect.get_block_list()
-        pc = PointCloud()
+        pc = PointCloudService()
 
         for block in block_list:
             pointcloud = pc.get_pointcloud(block.get_pixels())
-            pointcloud = PointCloud.transform_pointcloud_to_world_frame(pointcloud)
-            pointcloud = PointCloud.clean_pointcloud(pointcloud)
-            PointCloud.save_pointcloud_to_ply(pointcloud, PLY_AFTER_CLEAN_PATH)
-            PointCloud.visualize_pointcloud(PointCloud.get_pointcloud_from_ply(PLY_AFTER_CLEAN_PATH))
+            pointcloud = PointCloudService.transform_pointcloud_to_world_frame(pointcloud)
+            pointcloud = PointCloudService.clean_pointcloud(pointcloud)
+            PointCloudService.save_pointcloud_to_ply(pointcloud, PLY_AFTER_CLEAN_PATH)
+            PointCloudService.visualize_pointcloud(PointCloudService.get_pointcloud_from_ply(PLY_AFTER_CLEAN_PATH))
                 
         
             

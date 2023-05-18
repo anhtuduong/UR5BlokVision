@@ -10,7 +10,7 @@ if str(ROOT) not in sys.path:
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 # Import
-from vision.scripts.camera.PointCloud import PointCloud
+from UR5BlokVision.vision.scripts.camera.PointCloudService import PointCloud
 from vision.scripts.utils.Logger import Logger as log
 from constants import MODEL, PLY_FROM_ROS_PATH
     
