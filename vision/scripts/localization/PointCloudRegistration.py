@@ -87,6 +87,18 @@ class PointCloudRegistration:
         """
         point_cloud = np.array(point_cloud.points)
         return point_cloud
+    
+    # Save list point cloud to one PLY file
+    def save_pointcloud_to_PLY(point_clouds, ply_path):
+        """
+        @brief Save list point cloud to one PLY file
+        @param point_clouds (list): list of point clouds
+        @param ply_path (str): path to PLY output file
+        """
+        point_cloud = np.concatenate(point_clouds)
+        point_cloud = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(point_cloud))
+        o3d.io.write_point_cloud(ply_path, point_cloud)
+        log.debug(f"Saved point cloud to PLY file: {ply_path}")
 
     def downsample_point_cloud(point_cloud, voxel_size=0.05):
         """
@@ -109,18 +121,23 @@ class PointCloudRegistration:
         """
         time_execution = TimeExecution()
 
-        # Compute normals
-        point_cloud.estimate_normals(
-            search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.1, max_nn=30)
-        )
+        try:
+            # Compute normals
+            point_cloud.estimate_normals(
+                search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.1, max_nn=30)
+            )
 
-        # Compute FPFH features
-        radius_feature = 0.2
-        fpfh_features = o3d.pipelines.registration.compute_fpfh_feature(
-            point_cloud,
-            o3d.geometry.KDTreeSearchParamHybrid(radius=radius_feature, max_nn=30)
-        )
-        log.debug(f"FPFH features computed in {time_execution.get_duration():.3f}s")
+            # Compute FPFH features
+            radius_feature = 0.2
+            fpfh_features = o3d.pipelines.registration.compute_fpfh_feature(
+                point_cloud,
+                o3d.geometry.KDTreeSearchParamHybrid(radius=radius_feature, max_nn=30)
+            )
+            log.debug(f"FPFH features computed in {time_execution.get_duration():.3f}s")
+
+        except Exception as e:
+            log.error(f"FPFH features not computed: {e}")
+            fpfh_features = None
 
         return fpfh_features
 

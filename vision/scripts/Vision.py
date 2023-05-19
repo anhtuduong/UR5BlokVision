@@ -91,6 +91,9 @@ class Vision:
             # Visualize the point clouds
             PointCloudRegistration.visualize_pointcloud([source, target])
 
+            # Save the point clouds
+            PointCloudRegistration.save_pointcloud_to_PLY([source, target], PLY_AFTER_ALIGN_PATH)
+
             
                 
         
