@@ -46,6 +46,12 @@ class Block():
         self.point_world = ()
         self.segment = None
 
+    def get_name(self):
+        """ @brief Get block name
+            @return (String): block name
+        """
+        return self.name
+
     def get_pixels(self):
         """ @brief Get pixel coordinates of block
             @return (list): list of pixel coordinates of block
