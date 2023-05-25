@@ -59,6 +59,8 @@ class PointCloudRegistration:
         @brief Visualize the point clouds
         @param point_clouds (list): list of point clouds
         """
+        if not isinstance(point_clouds, list):
+            point_clouds = [point_clouds]
 
         # Create a visualization window
         vis = o3d.visualization.Visualizer()
@@ -95,10 +97,15 @@ class PointCloudRegistration:
         @param point_clouds (list): list of point clouds
         @param ply_path (str): path to PLY output file
         """
-        point_cloud = np.concatenate(point_clouds)
-        point_cloud = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(point_cloud))
-        o3d.io.write_point_cloud(ply_path, point_cloud)
-        log.debug(f"Saved point cloud to PLY file: {ply_path}")
+        if not isinstance(point_clouds, list):
+            point_clouds = [point_clouds]
+        
+        result_cloud = o3d.geometry.PointCloud()
+        for point_cloud in point_clouds:
+            result_cloud = result_cloud + point_cloud
+
+        o3d.io.write_point_cloud(ply_path, result_cloud)
+        log.debug(f"Point cloud saved to {ply_path}")
 
     def downsample_point_cloud(point_cloud, voxel_size=0.05):
         """
@@ -226,7 +233,7 @@ class PointCloudRegistration:
 # Main
 if __name__ == "__main__":
 
-    # Load the point clouds
+    # # Load the point clouds
     source = PointCloudRegistration.load_point_cloud(SOURCE_PATH)
     target = PointCloudRegistration.load_point_cloud(TARGET_PATH)
 
@@ -265,3 +272,6 @@ if __name__ == "__main__":
 
     # Visualize the point clouds
     PointCloudRegistration.visualize_pointcloud([source, target])
+
+    # Save the point clouds
+    PointCloudRegistration.save_pointcloud_to_PLY([source, target], PLY_AFTER_ALIGN_PATH)

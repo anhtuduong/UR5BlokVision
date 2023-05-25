@@ -95,7 +95,7 @@ class PointCloudService:
         cloud.plot(
             scalars=np.arange(cloud.n_points),
             render_points_as_spheres=True,
-            point_size=10,
+            point_size=5,
             show_grid=True,
             show_axes=True,
             show_bounds=True,
@@ -151,6 +151,9 @@ class PointCloudService:
         log.debug(f"Saved point cloud to PLY file: {ply_path}")
 
 if __name__ == '__main__':
-    
+
     point_cloud = PointCloudService.get_pointcloud_from_ply(PLY_AFTER_CLEAN_PATH)
+    PointCloudService.visualize_pointcloud(point_cloud)
+    
+    point_cloud = PointCloudService.get_pointcloud_from_ply(PLY_AFTER_ALIGN_PATH)
     PointCloudService.visualize_pointcloud(point_cloud)
