@@ -15,7 +15,7 @@ PLY_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud.ply"))
 PLY_FROM_ROS_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud_from_ros.ply"))
 PLY_AFTER_TRANSFORM_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud_after_transform.ply"))
 PLY_AFTER_CLEAN_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud_after_clean.ply"))
-
+PLY_AFTER_ALIGN_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud_after_align.ply"))
 # Names of all blocks
 BLOCK_NAMES = [ 
     'X1-Y1-Z2',

@@ -85,32 +85,21 @@ class PointCloudService:
         return point_cloud
 
     # Visualize point clouds
-    def visualize_pointcloud(point_clouds):
+    def visualize_pointcloud(point_cloud):
         """
-        @brief Visualize point_clouds with different colors for each point cloud
+        @brief Visualize point cloud
         @param point_clouds (list): list of point_clouds as NumPy arrays
         """
-        data = pv.MultiBlock()
 
-        # Assign random colors to each point cloud
-        for point_cloud in point_clouds:
-            cloud = pv.PolyData(point_cloud)
-
-            # Generate a random color for the current point cloud
-            color = np.random.rand(cloud.n_points, 3)
-
-            # Set the color of the point cloud
-            cloud.point_data["Colors"] = color
-
-            # Add the colored point cloud to the MultiBlock dataset
-            data.append(cloud)
-
-        data.plot(render_points_as_spheres=True,
-                point_size=10,
-                show_grid=True,
-                show_axes=True,
-                show_bounds=True,
-                scalars="Colors")
+        cloud = pv.PolyData(point_cloud)
+        cloud.plot(
+            scalars=np.arange(cloud.n_points),
+            render_points_as_spheres=True,
+            point_size=5,
+            show_grid=True,
+            show_axes=True,
+            show_bounds=True,
+        )
 
     # Transform point cloud to world frame
     def transform_pointcloud_to_world_frame(point_cloud):
@@ -162,6 +151,9 @@ class PointCloudService:
         log.debug(f"Saved point cloud to PLY file: {ply_path}")
 
 if __name__ == '__main__':
-    
+
     point_cloud = PointCloudService.get_pointcloud_from_ply(PLY_AFTER_CLEAN_PATH)
+    PointCloudService.visualize_pointcloud(point_cloud)
+    
+    point_cloud = PointCloudService.get_pointcloud_from_ply(PLY_AFTER_ALIGN_PATH)
     PointCloudService.visualize_pointcloud(point_cloud)
