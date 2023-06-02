@@ -4,7 +4,7 @@ import os
 import sys
 from pathlib import Path
 FILE = Path(__file__).resolve()
-ROOT = FILE.parents[1]
+ROOT = FILE.parents[0]
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 
@@ -16,6 +16,14 @@ PLY_FROM_ROS_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud_from_ro
 PLY_AFTER_TRANSFORM_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud_after_transform.ply"))
 PLY_AFTER_CLEAN_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud_after_clean.ply"))
 PLY_AFTER_ALIGN_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud_after_align.ply"))
+
+# Robot and simulation constants
+WORLD_NAME = 'lego.world'
+ROBOT_NAME = 'ur5'
+XACRO_PATH = os.path.abspath(os.path.join(ROOT, 'locosim/robot_descriptions/ur_description/urdf/ur5.urdf.xacro'))
+CUSTOM_MODELS_PATH = os.path.abspath(os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models'))
+LAUNCH_PATH = os.path.abspath(os.path.join(ROOT, 'locosim/ros_impedance_controller/launch/ros_impedance_controller_ur5.launch'))
+
 # Names of all blocks
 BLOCK_NAMES = [ 
     'X1-Y1-Z2',
@@ -79,6 +87,3 @@ MODEL = {
     }
 }
 
-# Main
-if __name__ == "__main__":
-    print(PLY_FROM_ROS_PATH)

@@ -9,7 +9,7 @@
 from abc import ABC, abstractmethod
 from IPython.display import display
 from PIL import Image
-from vision.constants import BLOCK_NAMES
+from constants import BLOCK_NAMES
 
 # ---------------------- CLASS ----------------------
 

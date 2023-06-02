@@ -10,10 +10,13 @@ import os
 import sys
 from pathlib import Path
 FILE = Path(__file__).resolve()
-ROOT = FILE.parents[3]
+ROOT = FILE.parents[1]
 if ROOT not in sys.path:
     sys.path.append(ROOT)  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
+
+# Import
+from termcolor import colored
 
 # Global constants
 LOG_PATH = os.path.abspath(os.path.join(ROOT, "vision/logs"))
@@ -24,15 +27,18 @@ class Logger:
     @brief This class contains utility functions for logging.
     """
     def info(text):
-        print(f"[INFO]\t{text}")
+        print(colored(f"[INFO]\t{text}", "green"))
 
     def debug(text):
         print(f"[DEBUG]\t{text}")
 
+    def debug_highlight(text):
+        print(colored(f"[DEBUG]\t{text}", "blue"))
+
     def error(text):
-        print(f"[ERROR]\t{text}")
+        print(colored(f"[ERROR]\t{text}", "red"))
 
     def warning(text):
-        print(f"[WARNING]\t{text}")
+        print(colored(f"[WARNING]\t{text}", "yellow"))
     
     # TODO: implement log to file

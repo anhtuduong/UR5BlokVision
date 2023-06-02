@@ -11,7 +11,7 @@ if str(ROOT) not in sys.path:
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 # Constants
-from vision.constants import *
+from constants import *
 
 SOURCE_PATH = MODEL['X1-Y2-Z2-TWINFILLET']['pointcloud_file']
 TARGET_PATH = PLY_AFTER_CLEAN_PATH

@@ -6,11 +6,11 @@
 @date 2023-05-04
 """
 
+
+# Resolve paths
 import os
 import sys
 from pathlib import Path
-
-# Resolve paths
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[2]
 if str(ROOT) not in sys.path:
@@ -25,7 +25,7 @@ from vision.scripts.camera.PointCloudService import PointCloudService
 from vision.scripts.localization.PointCloudRegistration import PointCloudRegistration
 from vision.scripts.utils.TransformationUtils import TransformationUtils
 from vision.scripts.utils.Logger import Logger as log
-from vision.constants import *
+from constants import *
 
 # ---------------------- CLASS ----------------------
 

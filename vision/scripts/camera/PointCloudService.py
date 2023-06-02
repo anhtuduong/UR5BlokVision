@@ -16,7 +16,7 @@ from sensor_msgs.msg import PointCloud2
 from vision.scripts.utils.Logger import Logger as log
 import pyvista as pv
 import numpy as np
-from vision.constants import *
+from constants import *
 
 # Global variables
 w_R_c = np.matrix([[0, -0.499, 0.866], [-1, 0, 0], [0, -0.866, -0.499]])
