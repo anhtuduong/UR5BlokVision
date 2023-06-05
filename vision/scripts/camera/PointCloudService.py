@@ -13,7 +13,7 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 import rospy as ros
 import sensor_msgs.point_cloud2 as point_cloud2
 from sensor_msgs.msg import PointCloud2
-from vision.scripts.utils.Logger import Logger as log
+from utilities.Logger import Logger as log
 import pyvista as pv
 import numpy as np
 from constants import *

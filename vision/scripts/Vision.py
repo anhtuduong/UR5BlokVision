@@ -6,7 +6,6 @@
 @date 2023-05-04
 """
 
-
 # Resolve paths
 import os
 import sys
@@ -19,12 +18,12 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 import rospy as ros
 import numpy as np
-from localization.BlockDetect import BlockDetect
-from camera.ZED import ZED
+from utilities.Logger import Logger as log
+from vision.scripts.camera.ZED import ZED
 from vision.scripts.camera.PointCloudService import PointCloudService
 from vision.scripts.localization.PointCloudRegistration import PointCloudRegistration
-from vision.scripts.utils.TransformationUtils import TransformationUtils
-from vision.scripts.utils.Logger import Logger as log
+from utilities.TransformationUtils import TransformationUtils
+from vision.scripts.localization.BlockDetect import BlockDetect
 from constants import *
 
 # ---------------------- CLASS ----------------------

@@ -11,7 +11,7 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative path to ROOT
 
 # Import
 import numpy as np
-from vision.scripts.utils.Logger import Logger as log
+from utilities.Logger import Logger as log
 
 class TransformationUtils:
     """

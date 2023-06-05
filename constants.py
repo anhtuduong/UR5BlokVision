@@ -20,6 +20,7 @@ PLY_AFTER_ALIGN_PATH = os.path.abspath(os.path.join(ROOT, "logs/point_cloud_afte
 # Robot and simulation constants
 WORLD_NAME = 'lego.world'
 ROBOT_NAME = 'ur5'
+URDF_PATH = os.path.abspath(os.path.join(ROOT, 'locosim/robot_urdf/generated_urdf/ur5.urdf'))
 XACRO_PATH = os.path.abspath(os.path.join(ROOT, 'locosim/robot_descriptions/ur_description/urdf/ur5.urdf.xacro'))
 CUSTOM_MODELS_PATH = os.path.abspath(os.path.join(ROOT, 'locosim/ros_impedance_controller/worlds/models'))
 LAUNCH_PATH = os.path.abspath(os.path.join(ROOT, 'locosim/ros_impedance_controller/launch/ros_impedance_controller_ur5.launch'))

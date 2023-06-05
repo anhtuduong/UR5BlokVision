@@ -20,9 +20,9 @@ TARGET_PATH = PLY_AFTER_CLEAN_PATH
 import open3d as o3d
 import numpy as np
 from scipy.spatial.transform import Rotation
-from vision.scripts.utils.Logger import Logger as log
-from vision.scripts.utils.TimeExecution import TimeExecution
-from vision.scripts.utils.TransformationUtils import TransformationUtils
+from utilities.Logger import Logger as log
+from utilities.TimeExecution import TimeExecution
+from utilities.TransformationUtils import TransformationUtils
 
 class PointCloudRegistration:
     """
