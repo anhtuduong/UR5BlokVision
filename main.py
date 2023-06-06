@@ -78,6 +78,8 @@ def talker(p):
     v_des = 0.6
     q_des = np.array([-2.8901, -1.0149, -2.1377, -1.7127, -1.6112, 0.0381])
     p.move_joints(dt, v_des, q_des, rate)
+
+    # test moving to position
     position = np.array([0.30276, 0.60204, 0.89147])
     rotation = np.array([-0.337, -2.2038, -10.481])
     p.move_to(position, rotation, dt, v_des, rate)
