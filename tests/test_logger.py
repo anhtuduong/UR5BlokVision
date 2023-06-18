@@ -18,7 +18,8 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 # Import
 import unittest
-from utilities.Logger import Logger
+from termcolor import colored
+from utils_ur5.src.Logger import Logger
 
 class TestLogger(unittest.TestCase):
     """!
@@ -29,8 +30,12 @@ class TestLogger(unittest.TestCase):
         """!
         @brief This method tests the info method.
         """
-        assert Logger.info("test") == "[INFO] test"
-        assert Logger.warning("test") == "[WARNING] test"
-        assert Logger.error("test") == "[ERROR] test"
-        assert Logger.debug("test") == "[DEBUG] test"
+        text = "test"
+        assert Logger.info(text) == colored(f"[INFO]\t{text}", "green", attrs=["bold"])
+        assert Logger.warning(text) == colored(f"[WARNING]\t{text}", "yellow")
+        assert Logger.error(text) == colored(f"[ERROR]\t{text}", "red")
+        assert Logger.debug(text) == "[DEBUG]\ttest"
+
+if __name__ == '__main__':
+    unittest.main()
         

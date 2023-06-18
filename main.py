@@ -18,9 +18,10 @@ import rospy as ros
 from locosim.ur5_controller import UR5Controller
 import locosim.robot_control.base_controllers.params as conf
 
+
 # Other utils
 import numpy as np
-from utilities.Logger import Logger as log
+from utils_ur5.src.Logger import Logger as log
 
 # Constants
 from constants import *
@@ -72,19 +73,19 @@ def talker(p):
                                         v_des,
                                         conf.robot_params[p.robot_name]['q_0'],
                                         rate)
-        
-    # test moving
-    dt = conf.robot_params[p.robot_name]['dt']
-    v_des = 0.6
-    q_des = np.array([-2.8901, -1.0149, -2.1377, -1.7127, -1.6112, 0.0381])
-    p.move_joints(dt, v_des, q_des, rate)
 
-    # test moving to position
-    position = np.array([0.30276, 0.60204, 0.89147])
-    rotation = np.array([-0.337, -2.2038, -10.481])
-    p.move_to(position, rotation, dt, v_des, rate)
+    
 
-    gripper_on = 0
+
+    # test Vision
+    # vision = Vision()
+    # block_list = vision.get_block_list()
+    # for block in block_list:
+    #     pose_target = Pose()
+    #     pose_target.position.x = block.position[0]
+    #     pose_target.position.y = block.position[1]
+    #     pose_target.position.z = block.position[2]
+    #     p.move_to(pose_target, p.dt, p.v_des, rate)
 
     # launch task planner node (implement the state machine)
 
@@ -95,6 +96,11 @@ def talker(p):
     # control loop (runs every dt seconds)
     while not ros.is_shutdown():
         p.updateKinematicsDynamics()
+
+        # # get end effector pose
+        # ee_pos, ee_rot = p.get_ee_position_rotation()
+        # log.info(f'End effector position: {ee_pos}')
+        # log.info(f'End effector rotation: {ee_rot}')
 
         ## set joints here
         # p.q_des = p.q_des_q0  + 0.1 * np.sin(2*np.pi*0.5*p.time)
@@ -135,6 +141,7 @@ if __name__ == "__main__":
 
     try:
         talker(p)
+
     except (ros.ROSInterruptException, ros.service.ServiceException):
         ros.signal_shutdown("killed")
         p.deregister_node()
