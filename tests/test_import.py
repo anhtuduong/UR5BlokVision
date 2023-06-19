@@ -14,7 +14,6 @@ FILE = Path(__file__).resolve()
 ROOT = FILE.parents[1]
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
-    print(sys.path)
 
 # Import
 import unittest
@@ -26,17 +25,24 @@ class TestImport(unittest.TestCase):
 
     def test_import_motion(self):
         """!
-        @brief This method tests the import of motion_ur5 package.
+        @brief This method tests the import of motions package.
         """
-        from motion_ur5.src.test import test_root
-        assert test_root() == ROOT
+        from motion.test import test_root as test_root_motion
+        assert test_root_motion() == ROOT
         
     def test_import_vision(self):
         """!
-        @brief This method tests the import of vision_ur5 package.
+        @brief This method tests the import of vision package.
         """
-        from vision_ur5.src.test import test_root
-        assert test_root() == ROOT
+        from vision.src.test import test_root as test_root_vision
+        assert test_root_vision() == ROOT
+
+    def test_import_utils(self):
+        """!
+        @brief This method tests the import of utils_ur5 package.
+        """
+        from utils_ur5.test import test_root as test_root_utils
+        assert test_root_utils() == ROOT
 
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ import locosim.robot_control.base_controllers.params as conf
 
 # Other utils
 import numpy as np
-from utils_ur5.src.Logger import Logger as log
+from utils_ur5.Logger import Logger as log
 
 # Constants
 from constants import *

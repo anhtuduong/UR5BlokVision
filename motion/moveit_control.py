@@ -4,7 +4,7 @@ import os
 import sys
 from pathlib import Path
 FILE = Path(__file__).resolve()
-ROOT = FILE.parents[2]
+ROOT = FILE.parents[1]
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 
@@ -14,8 +14,7 @@ import geometry_msgs.msg
 from moveit_msgs.msg import Constraints, OrientationConstraint
 
 import numpy as np
-from utils_ur5.src.plot_joint_state import plot_graph
-from utils_ur5.src.Logger import Logger as log
+from utils_ur5.Logger import Logger as log
 
 def get_trajectory(pose_target: geometry_msgs.msg.Pose):
 
@@ -56,10 +55,6 @@ def get_trajectory(pose_target: geometry_msgs.msg.Pose):
     if success:
         joint_trajectory = plan.joint_trajectory
         log.info(f'PLANNING SUCCESSFUL in {planning_time} seconds')
-        positions = []
-        for point in joint_trajectory.points:
-            positions.append((point.positions))
-        plot_graph(positions)
         return joint_trajectory
     else:
         log.error(f'PLANNING FAILED in {planning_time} seconds')

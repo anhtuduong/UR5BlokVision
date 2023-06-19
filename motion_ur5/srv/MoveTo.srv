@@ -1,6 +1,0 @@
-float64[] pose_target
-float64 dt
-float64 v_des
-int64 rate
----
-bool success
