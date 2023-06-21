@@ -123,9 +123,9 @@ class Motion():
         request.data = diameter
 
         # Send the request to the service
-        response = self.move_gripper_srv(request)
+        res = self.move_gripper_srv(request)
 
-        if response:
+        if res:
             log.info(f'Gripper command sent: {diameter}')
         else:
             log.error(f'Gripper command failed: {diameter}')
@@ -157,12 +157,12 @@ class Motion():
         # pose_target.position.z -= 0.1
         # self.move_to(pose_target)
 
-        self.move_gripper(30)
+        self.move_gripper(100)
 
         # pose_target.position.z += 0.1
         # self.move_to(pose_target)
 
-        self.move_gripper(60)
+        self.move_gripper(30)
         
 
         self.rate.sleep()
