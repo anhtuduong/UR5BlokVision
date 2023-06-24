@@ -97,28 +97,6 @@ def talker(p):
     while not ros.is_shutdown():
         p.updateKinematicsDynamics()
 
-        # # get end effector pose
-        # ee_pos, ee_rot = p.get_ee_position_rotation()
-        # log.info(f'End effector position: {ee_pos}')
-        # log.info(f'End effector rotation: {ee_rot}')
-
-        ## set joints here
-        # p.q_des = p.q_des_q0  + 0.1 * np.sin(2*np.pi*0.5*p.time)
-        # p.qd_des = 0.1 * 2 * np.pi * 0.5* np.cos(2 * np.pi * 0.5 * p.time)*np.ones(p.robot.na)
-
-        ##test gripper
-        # in Simulation remember to set gripper_sim : True in params.yaml!
-        # if p.time>5.0 and (gripper_on == 0):
-        #     print("gripper 30")
-        #     p.controller_manager.gm.move_gripper(10)
-        #     gripper_on = 1
-        # if (gripper_on == 1) and p.time>10.0:
-        #     print("gripper 100")
-        #     p.controller_manager.gm.move_gripper(100)
-        #     gripper_on = 2
-        #need to uncomment this to be able to send joints references (leave it commented if you have an external node setting them)
-        #p.controller_manager.sendReference(p.q_des, p.qd_des, p.h)
-
         if p.real_robot:
             p.ros_pub.add_arrow(p.x_ee + p.base_offset,
                                              p.contactForceW / (6 * p.robot.robot_mass),

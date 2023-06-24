@@ -10,63 +10,72 @@ if str(ROOT) not in sys.path:
 
 import rospy as ros
 import moveit_commander
+# from moveit_commander import FKUtils
 import geometry_msgs.msg
 from moveit_msgs.msg import Constraints, OrientationConstraint
 
 import numpy as np
 from utils_ur5.Logger import Logger as log
 
-def get_trajectory(pose_target: geometry_msgs.msg.Pose):
+class MoveitControl():
+    """
+    """
+    def __init__(self):
 
-    log.debug_highlight(f'Start planning trajectory')
+        self.robot = moveit_commander.RobotCommander()
+        self.scene = moveit_commander.PlanningSceneInterface()
+        self.group_name = "ur5_arms"  # Or whichever group you defined in your SRDF
+        self.group = moveit_commander.MoveGroupCommander(self.group_name)
+        log.info(f"MoveitControl initiated. Group name: {self.group_name}")
 
-    robot = moveit_commander.RobotCommander()
-    scene = moveit_commander.PlanningSceneInterface()
-    group_name = "ur5_arms"  # Or whichever group you defined in your SRDF
-    group = moveit_commander.MoveGroupCommander(group_name)
-    log.debug(f"Group name: {group_name}")
+    def get_trajectory(self, target):
+        """
+        """
+        log.debug_highlight(f'Start planning trajectory')
 
-    group.set_pose_target(pose_target)
-    log.debug(f"Pose target:\n{pose_target}")
+        if isinstance(target, geometry_msgs.msg.Pose):
+            # Set the pose target
+            self.group.set_pose_target(target)
+            log.debug(f"Pose target:\n{target}")
+        elif isinstance(target, tuple):
+            # Set the joint values as the target
+            target = np.array(target)
+            self.group.set_joint_value_target(target)
+            log.debug(f"Joint states:\n{target}")
+        else:
+            log.error(f"Target type {type(target)} not supported")
+            return None
 
-    # Set the current joint state as the starting point for planning
-    # group.set_start_state(current_joint_state)
+        # Apply orientation constraint
+        # self.apply_orientation_constraint()
 
-    # # Define the orientation constraint
-    # orientation_constraint = Constraints()
-    # orientation_constraint.orientation_constraints.append(OrientationConstraint())
-    # orientation_constraint.orientation_constraints[0].link_name = group.get_end_effector_link()
-    # orientation_constraint.orientation_constraints[0].header.frame_id = group.get_planning_frame()
-    # orientation_constraint.orientation_constraints[0].orientation.x = 0.0
-    # orientation_constraint.orientation_constraints[0].orientation.y = 0.0
-    # orientation_constraint.orientation_constraints[0].orientation.z = 0.0
-    # orientation_constraint.orientation_constraints[0].orientation.w = 1.0
-    # orientation_constraint.orientation_constraints[0].absolute_x_axis_tolerance = 1.0
-    # orientation_constraint.orientation_constraints[0].absolute_y_axis_tolerance = 1.0
-    # orientation_constraint.orientation_constraints[0].absolute_z_axis_tolerance = 1.0
-    # orientation_constraint.orientation_constraints[0].weight = 0.1
+        # Plan
+        success, plan, planning_time, _ = self.group.plan()
 
-    # # Apply the orientation constraint
-    # group.set_path_constraints(orientation_constraint)
+        if success:
+            joint_trajectory = plan.joint_trajectory
+            log.info(f'PLANNING SUCCESSFUL in {planning_time} seconds')
+            return joint_trajectory
+        else:
+            log.error(f'PLANNING FAILED in {planning_time} seconds')
+            return None
 
-    # Plan
-    success, plan, planning_time, _ = group.plan()
+    def apply_orientation_constraint(self):
+        """
+        """
+        # Define the orientation constraint
+        orientation_constraint = Constraints()
+        orientation_constraint.orientation_constraints.append(OrientationConstraint())
+        orientation_constraint.orientation_constraints[0].link_name = self.group.get_end_effector_link()
+        orientation_constraint.orientation_constraints[0].header.frame_id = self.group.get_planning_frame()
+        orientation_constraint.orientation_constraints[0].orientation.x = 0.0
+        orientation_constraint.orientation_constraints[0].orientation.y = 1.0
+        orientation_constraint.orientation_constraints[0].orientation.z = 0.0
+        orientation_constraint.orientation_constraints[0].orientation.w = 0.0
+        orientation_constraint.orientation_constraints[0].absolute_x_axis_tolerance = 0.1
+        orientation_constraint.orientation_constraints[0].absolute_y_axis_tolerance = 0.1
+        orientation_constraint.orientation_constraints[0].absolute_z_axis_tolerance = 0.1
+        orientation_constraint.orientation_constraints[0].weight = 0.1
 
-    if success:
-        joint_trajectory = plan.joint_trajectory
-        log.info(f'PLANNING SUCCESSFUL in {planning_time} seconds')
-        return joint_trajectory
-    else:
-        log.error(f'PLANNING FAILED in {planning_time} seconds')
-        return None
-
-if __name__ == '__main__':
-    pose_target = geometry_msgs.msg.Pose()
-    pose_target.position.x = 0.119298
-    pose_target.position.y = 0.69092
-    pose_target.position.z = 1.04841
-    pose_target.orientation.x = -0.612378
-    pose_target.orientation.y = 0.785267
-    pose_target.orientation.z = -0.0308864
-    pose_target.orientation.w = 0.0859964
-    joint_states = get_trajectory(pose_target)
+        # Apply the orientation constraint
+        self.group.set_path_constraints(orientation_constraint)

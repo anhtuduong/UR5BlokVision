@@ -47,9 +47,9 @@ class Motion():
         self.qd = np.zeros(len(self.joint_names))
         self.tau = np.zeros(len(self.joint_names))
 
-
         # Ros subscribers
         self.joint_states_sub = ros.Subscriber('/joint_states', JointState, self.joint_states_callback)
+        self.ee_pose_sub = ros.Subscriber('/ur5/ee_pose', Pose, self.ee_pose_callback)
 
         # Ros service clients
         ros.wait_for_service('/ur5/move_joints')
@@ -58,6 +58,11 @@ class Motion():
         self.move_to_srv = ros.ServiceProxy('/ur5/move_to', MoveTo)
         ros.wait_for_service('move_gripper')
         self.move_gripper_srv = ros.ServiceProxy('/ur5/move_gripper', generic_float)
+
+        # Predefined poses
+        self.q_pick = conf.robot_params[self.robot_name]['q_pick']
+        self.q_middle = conf.robot_params[self.robot_name]['q_middle']
+        self.q_place = conf.robot_params[self.robot_name]['q_place']
 
     def joint_states_callback(self, msg):
         """
@@ -69,7 +74,12 @@ class Motion():
                     self.qd[joint_idx] = msg.velocity[msg_idx]
                     self.tau[joint_idx] = msg.effort[msg_idx]
 
-    def move_joints(self, q_des):
+    def ee_pose_callback(self, msg):
+        """
+        """
+        self.ee_pose = msg
+
+    def move_joints(self, q_des, text = ''):
         """
         """
         # Create a request object for MoveJoints
@@ -79,16 +89,16 @@ class Motion():
         req.v_des = self.v_des
 
         # Call the service
-        log.debug_highlight('Start movement')
+        log.debug_highlight(f'Start movement! {text}')
         res = self.move_joints_srv(req)
 
         if res.success:
-            log.info(f'Movement succeeded')
+            log.info(f'Movement succeeded! {text}')
         else:
-            log.error(f'Movement failed')
+            log.error(f'Movement failed! {text}')
         return res
         
-    def move_to(self, pose_target):
+    def move_to(self, pose_target, text = ''):
         """
         """
         if isinstance(pose_target, Pose):
@@ -105,16 +115,16 @@ class Motion():
         req.v_des = self.v_des
 
         # Call the service
-        log.debug_highlight('Start movement')
+        log.debug_highlight(f'Start movement! {text}')
         res = self.move_to_srv(req)
 
         if res.success:
-            log.info(f'Movement succeeded')
+            log.info(f'Movement succeeded! {text}')
         else:
-            log.error(f'Movement failed')
+            log.error(f'Movement failed {text}')
         return res
 
-    def move_gripper(self, diameter):
+    def move_gripper(self, diameter, text = ''):
         """
         """
         log.debug_highlight(f'Start gripper')
@@ -126,46 +136,62 @@ class Motion():
         res = self.move_gripper_srv(request)
 
         if res:
-            log.info(f'Gripper command sent: {diameter}')
+            log.info(f'Gripper command sent: {diameter}mm. {text}')
         else:
-            log.error(f'Gripper command failed: {diameter}')
+            log.error(f'Gripper command failed: {diameter}mm. {text}')
 
     
 
     def run(self):
         """
         """
-        # test moving to position
-        # position = np.array([0.30276, 0.60204, 0.89147])
-        # rotation = np.array([-0.337, -2.2038, -10.481])
-        pose_target = Pose()
-        pose_target.position.x = 0.30276
-        pose_target.position.y = 0.50204
-        pose_target.position.z = 0.95
-        pose_target.orientation.x = -0.616939
-        pose_target.orientation.y = 0.785472
-        pose_target.orientation.z = 0.0251763
-        pose_target.orientation.w = 0.0422654
+        # # test moving to current perpendicular
+        # pose_target = Pose()
+        # pose_target.position.x = 0.6716437995358168
+        # pose_target.position.y = 0.5476672561804214
+        # pose_target.position.z = 1.1371617396564637
+        # pose_target.orientation.x = 0.0
+        # pose_target.orientation.y = 1.0
+        # pose_target.orientation.z = 0.0
+        # pose_target.orientation.w = 0.0
 
-        # for pose in p.bridge_trajectory:
-        #     p.move_joints(p.dt, p.v_des, pose, rate)
+        # self.move_to(pose_target, 'Perpendicular to the table')
+        # log.debug(f'q: {self.q}')
 
-        # p.move_joints(p.dt, p.v_des, p.q_guess['pick'], rate)
-        # pose_target.position.z += 0.1
-        # self.move_to(pose_target)
+        # test moving to lego
+        pick = Pose()
+        pick.position.x = 0.0732
+        pick.position.y = 0.4539
+        pick.position.z = 0.945
+        pick.orientation.x = 0.0
+        pick.orientation.y = 1.0
+        pick.orientation.z = 0.0
+        pick.orientation.w = 0.0
 
-        # pose_target.position.z -= 0.1
-        # self.move_to(pose_target)
+        pick.position.z += 0.1
+        self.move_to(pick, 'Above the object')
 
-        self.move_gripper(100)
+        pick.position.z -= 0.1
+        self.move_to(pick, 'On the object')
 
-        # pose_target.position.z += 0.1
-        # self.move_to(pose_target)
+        self.move_gripper(40, 'Grasp the object')
 
-        self.move_gripper(30)
+        pick.position.z += 0.1
+        self.move_to(pick, 'Pick the object up')
+
+        self.move_joints(self.q_place, 'Move to place above')
+
+        # Get current ee pose
+        place = self.ee_pose
+        place.position.z = 0.95
+        self.move_to(place, 'Move to place')
+
+        self.move_gripper(70, 'Release the object')
+
+        place.position.z += 0.1
+        self.move_to(place, 'Move up')
+
         
-
-        self.rate.sleep()
 
 # ----------- MAIN ----------- #
 if __name__ == '__main__':
