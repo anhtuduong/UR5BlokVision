@@ -14,7 +14,7 @@ import numpy as np
 import rospy as ros
 import tf
 from geometry_msgs.msg import PoseStamped
-from utilities.Logger import Logger as log
+from utils_ur5.Logger import Logger as log
 
 class TransformationUtils:
     """
@@ -71,9 +71,6 @@ class TransformationUtils:
         @param to_frame (str): Frame to transform to
         @return output_pose (Pose): Transformed pose
         """
-        # Initialize node
-        if not ros.get_node_uri():
-            ros.init_node('pose_transformer', anonymous=True)
 
         # PoseStamped
         pose_in = PoseStamped()

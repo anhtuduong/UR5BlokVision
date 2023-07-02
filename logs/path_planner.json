@@ -1,0 +1,283 @@
+[
+    {
+        "type": "spawn model static",
+        "description": "Spawn model 1 static",
+        "model_name": "X1-Y1-Z2 1",
+        "is_static": true
+    },
+    {
+        "type": "delete model",
+        "description": "Delete model 1",
+        "model_name": "X1-Y1-Z2 1"
+    },
+    {
+        "type": "move joints",
+        "description": "Move to middle",
+        "joints": [
+            -1.24,
+            -1.12,
+            -2.64,
+            -0.98,
+            -1.59,
+            -0.27
+        ]
+    },
+    {
+        "type": "move to",
+        "description": "Move above X1-Y1-Z2 2",
+        "pose": [
+            0.185,
+            0.7,
+            1.045,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "move to",
+        "description": "Move down to X1-Y1-Z2 2",
+        "pose": [
+            0.185,
+            0.7,
+            0.945,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "move gripper",
+        "description": "Grasp X1-Y1-Z2 2",
+        "diameter": 30
+    },
+    {
+        "type": "move to",
+        "description": "Pick up X1-Y1-Z2 2",
+        "pose": [
+            0.185,
+            0.7,
+            1.045,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "move joints",
+        "description": "Move to middle",
+        "joints": [
+            -1.24,
+            -1.12,
+            -2.64,
+            -0.98,
+            -1.59,
+            -0.27
+        ]
+    },
+    {
+        "type": "move to",
+        "description": "Move above the place position",
+        "pose": [
+            0.72,
+            0.557,
+            1.045,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "move to",
+        "description": "Move down to the place position",
+        "pose": [
+            0.72,
+            0.557,
+            0.983,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "attach models",
+        "description": "Attach models",
+        "model_name_1": "X1-Y1-Z2 2",
+        "model_name_2": "X1-Y1-Z2 1 static"
+    },
+    {
+        "type": "move gripper",
+        "description": "Release X1-Y1-Z2 2",
+        "diameter": 70
+    },
+    {
+        "type": "move to",
+        "description": "Move above X1-Y1-Z2 2",
+        "pose": [
+            0.72,
+            0.557,
+            1.1,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "spawn model static",
+        "description": "Spawn model 2 static",
+        "model_name": "X1-Y1-Z2 2",
+        "is_static": true
+    },
+    {
+        "type": "detach models",
+        "description": "Detach models",
+        "model_name_1": "X1-Y1-Z2 2",
+        "model_name_2": "X1-Y1-Z2 1 static"
+    },
+    {
+        "type": "delete model",
+        "description": "Delete model 2",
+        "model_name": "X1-Y1-Z2 2"
+    },
+    {
+        "type": "move joints",
+        "description": "Move to middle",
+        "joints": [
+            -1.24,
+            -1.12,
+            -2.64,
+            -0.98,
+            -1.59,
+            -0.27
+        ]
+    },
+    {
+        "type": "move to",
+        "description": "Move above X1-Y1-Z2 3",
+        "pose": [
+            0.185,
+            0.6,
+            1.045,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "move to",
+        "description": "Move down to X1-Y1-Z2 3",
+        "pose": [
+            0.185,
+            0.6,
+            0.945,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "move gripper",
+        "description": "Grasp X1-Y1-Z2 3",
+        "diameter": 30
+    },
+    {
+        "type": "move to",
+        "description": "Pick up X1-Y1-Z2 3",
+        "pose": [
+            0.185,
+            0.6,
+            1.045,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "move joints",
+        "description": "Move to middle",
+        "joints": [
+            -1.24,
+            -1.12,
+            -2.64,
+            -0.98,
+            -1.59,
+            -0.27
+        ]
+    },
+    {
+        "type": "move to",
+        "description": "Move above the place position",
+        "pose": [
+            0.72,
+            0.557,
+            1.055,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "move to",
+        "description": "Move down to the place position",
+        "pose": [
+            0.72,
+            0.557,
+            1.02,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "attach models",
+        "description": "Attach models",
+        "model_name_1": "X1-Y1-Z2 3",
+        "model_name_2": "X1-Y1-Z2 2 static"
+    },
+    {
+        "type": "move gripper",
+        "description": "Release X1-Y1-Z2 3",
+        "diameter": 70
+    },
+    {
+        "type": "move to",
+        "description": "Move above X1-Y1-Z2 3",
+        "pose": [
+            0.72,
+            0.557,
+            1.1,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+        ]
+    },
+    {
+        "type": "spawn model static",
+        "description": "Spawn model 3 static",
+        "model_name": "X1-Y1-Z2 3",
+        "is_static": true
+    },
+    {
+        "type": "detach models",
+        "description": "Detach models",
+        "model_name_1": "X1-Y1-Z2 3",
+        "model_name_2": "X1-Y1-Z2 2 static"
+    },
+    {
+        "type": "delete model",
+        "description": "Delete model 3",
+        "model_name": "X1-Y1-Z2 3"
+    }
+]

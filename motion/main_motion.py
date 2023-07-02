@@ -13,6 +13,8 @@ import rospy as ros
 import locosim.robot_control.base_controllers.params as conf
 import numpy as np
 from motion.utils import *
+from motion.motion_planner import MotionPlanner
+from motion.gazebo_command import GazeboCommand
 from utils_ur5.Logger import Logger as log
 
 # Ros msg and srv
@@ -142,58 +144,31 @@ class Motion():
 
     
 
-    def run(self):
+    def run(self, planner: MotionPlanner):
         """
         """
-        # # test moving to current perpendicular
-        # pose_target = Pose()
-        # pose_target.position.x = 0.6716437995358168
-        # pose_target.position.y = 0.5476672561804214
-        # pose_target.position.z = 1.1371617396564637
-        # pose_target.orientation.x = 0.0
-        # pose_target.orientation.y = 1.0
-        # pose_target.orientation.z = 0.0
-        # pose_target.orientation.w = 0.0
+        gazebo_command = GazeboCommand()
 
-        # self.move_to(pose_target, 'Perpendicular to the table')
-        # log.debug(f'q: {self.q}')
-
-        # test moving to lego
-        pick = Pose()
-        pick.position.x = 0.0732
-        pick.position.y = 0.4539
-        pick.position.z = 0.945
-        pick.orientation.x = 0.0
-        pick.orientation.y = 1.0
-        pick.orientation.z = 0.0
-        pick.orientation.w = 0.0
-
-        pick.position.z += 0.1
-        self.move_to(pick, 'Above the object')
-
-        pick.position.z -= 0.1
-        self.move_to(pick, 'On the object')
-
-        self.move_gripper(40, 'Grasp the object')
-
-        pick.position.z += 0.1
-        self.move_to(pick, 'Pick the object up')
-
-        self.move_joints(self.q_place, 'Move to place above')
-
-        # Get current ee pose
-        place = self.ee_pose
-        place.position.z = 0.95
-        self.move_to(place, 'Move to place')
-
-        self.move_gripper(70, 'Release the object')
-
-        place.position.z += 0.1
-        self.move_to(place, 'Move up')
+        for action in planner.action_list:
+            if action['type'] == 'move to':
+                self.move_to(action['pose'], action['description'])
+            elif action['type'] == 'move joints':
+                self.move_joints(action['joints'], action['description'])
+            elif action['type'] == 'move gripper':
+                self.move_gripper(action['diameter'], action['description'])
+            elif action['type'] == 'spawn model static':
+                gazebo_command.spawn_model_static(action['model_name'], action['is_static'])
+            elif action['type'] == 'delete model':
+                gazebo_command.delete_model(action['model_name'])
+            elif action['type'] == 'attach models':
+                gazebo_command.attach_models(action['model_name_1'], action['model_name_2'])
+            elif action['type'] == 'dettach models':
+                gazebo_command.dettach_models(action['model_name_1'], action['model_name_2'])
 
         
 
 # ----------- MAIN ----------- #
 if __name__ == '__main__':
     motion = Motion()
-    motion.run()
+    planner = MotionPlanner()
+    motion.run(planner)

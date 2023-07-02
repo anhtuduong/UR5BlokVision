@@ -47,7 +47,7 @@ class Logger:
         return out
 
     def warning(text):
-        out = colored(f"[WARNING]\t{text}", "yellow")
+        out = colored(f"[WARNING] {text}", "yellow")
         print(out)
         return out
     

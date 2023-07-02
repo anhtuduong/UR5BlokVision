@@ -15,7 +15,7 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 import rospy as ros
 
 # Robot utils
-from locosim.ur5_controller import UR5Controller
+from motion.ur5_controller import UR5Controller
 import locosim.robot_control.base_controllers.params as conf
 
 
@@ -37,8 +37,8 @@ def talker(p):
     if p.real_robot:
         p.startRealRobot()
     else:
-        additional_args = ['gripper:=' + str(p.gripper)]
-                        #    'soft_gripper:=' + str(conf.robot_params[p.robot_name]['soft_gripper'])]
+        additional_args = ['gripper:=' + str(p.gripper),
+                           'soft_gripper:=' + str(conf.robot_params[p.robot_name]['soft_gripper'])]
                             #, 'gui:=false']
         p.startSimulator(world_name = p.world_name,
                                       use_torque_control = p.use_torque_control,
